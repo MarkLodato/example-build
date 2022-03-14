@@ -1,5 +1,10 @@
-name: Build
-on: [workflow_dispatch]
+name: Build workflow
+on:
+  workflow_dispatch:
+    inputs:
+      exampleInput:
+        description: 'Example field'
+        required: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,3 +21,6 @@ jobs:
           path: |
             bazel-bin/hello_/hello
             hello.provenance
+
+  call-workflow:
+    uses: MarkLodato/example-reusable-workflow/.github/workflows/reusable.yaml@main
