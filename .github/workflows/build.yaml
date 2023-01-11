@@ -1,4 +1,4 @@
-name: Build workflow
+name: Dump GitHub Actions context
 on:
   workflow_dispatch:
     inputs:
@@ -6,21 +6,24 @@ on:
         description: 'Example field'
         required: false
 jobs:
-  build:
+  dump-contexts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: bazelisk build //:hello
-      - uses: slsa-framework/github-actions-demo@v0.1
-        with:
-          artifact_path: bazel-bin/hello_/hello
-          output_path: hello.provenance
-        continue-on-error: true
-      - uses: actions/upload-artifact@v2
-        with:
-          path: |
-            bazel-bin/hello_/hello
-            hello.provenance
+      - name: Dump contexts as JSON
+        run: |
+          # reusable workflows also have "jobs"
+          echo '{
+            "github": ${{toJSON(github)}},
+            "vars": ${{toJSON(vars)}},
+            "job": ${{toJSON(job)}},
+            "steps": ${{toJSON(steps)}},
+            "runner": ${{toJSON(runner)}},
+            "secrets": ${{toJSON(secrets)}},
+            "strategy": ${{toJSON(strategy)}},
+            "matrix": ${{toJSON(matrix)}},
+            "needs": ${{toJSON(needs)}},
+            "inputs": ${{toJSON(inputs)}}
+          }' | jq .
 
   call-workflow:
     uses: MarkLodato/example-reusable-workflow/.github/workflows/reusable.yaml@main
