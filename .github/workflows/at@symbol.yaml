@@ -1,0 +1,40 @@
+name: At symbol test
+
+on:
+  workflow_dispatch:
+    inputs:
+      toplevelInput:
+        description: 'Field for top-level workflow'
+        required: false
+      shadowedInput:
+        description: 'Field with same name as top-level workflow'
+        required: false
+
+jobs:
+  dump-contexts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump contexts as JSON
+        run: |
+          # Note: reusable workflows also have a "jobs" context, but it is not
+          # available here.
+          cat <<'EOF' | jq --sort-keys .
+          {
+            "github": ${{toJSON(github)}},
+            "vars": ${{toJSON(vars)}},
+            "job": ${{toJSON(job)}},
+            "steps": ${{toJSON(steps)}},
+            "runner": ${{toJSON(runner)}},
+            "secrets": ${{toJSON(secrets)}},
+            "strategy": ${{toJSON(strategy)}},
+            "matrix": ${{toJSON(matrix)}},
+            "needs": ${{toJSON(needs)}},
+            "inputs": ${{toJSON(inputs)}}
+          }
+          EOF
+
+  call-workflow:
+    uses: MarkLodato/example-reusable-workflow/.github/workflows/dump.yaml@main
+    with:
+      resuableInput: hard-coded reusableInput value within top-level workflow
+      shadowedInput: hard-coded shadowedInput value within top-level workflow
