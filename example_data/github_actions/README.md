@@ -51,3 +51,16 @@ In this example, there are two levels of workflows:
 -   The resuable workflow's `vars` context is the **same as the top-level's**
     `vars` context. In other words, the repository variables come from the
     top-level repo, not the reusable workflow's repo.
+
+## Test for `@` symbols
+
+The `workflow_ref` contains an `@` as a separator. This makes it difficult to
+parse if the workflow name and/or ref also contain an `@`. See
+[at_symbol.json](at_symbol.json) for an example:
+
+```json
+"workflow_ref": "MarkLodato/example-build/.github/workflows/at@symbol.yaml@refs/heads/branch@symbol",
+```
+
+Note that the repository name cannot contain `@`, so the SPDX Download Location
+is unambiguous: the repository URL is up to the first `@`.
