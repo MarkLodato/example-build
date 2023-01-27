@@ -40,8 +40,12 @@ In this example, there are two levels of workflows:
 
 ## Example output
 
--   [top_level_context.json](top_level_context.json)
--   [reusable_context.json](reusable_context.json)
+The following names correspond to the event type that triggered them:
+
+-   [push.json](push.json)
+-   [workflow_call.json](workflow_call.json) (same run as
+    workflow_dispatch.json, but the reusable workflow that was called)
+-   [workflow_dispatch.json](workflow_dispatch.json)
 
 ## Noteworthy properties
 
