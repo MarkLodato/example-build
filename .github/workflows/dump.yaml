@@ -12,6 +12,12 @@ on:
       shadowedInput:
         description: 'Field with same name as top-level workflow'
         required: false
+      defaultInput:
+        description: 'Field with a default value'
+        default: default-value
+      booleanInput:
+        description: 'Field of type boolean'
+        type: boolean
 
 jobs:
   dump-contexts:
