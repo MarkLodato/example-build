@@ -43,7 +43,19 @@ In this example, there are two levels of workflows:
 The following names correspond to the event type that triggered them:
 
 -   [deployment.json](deployment.json) (no parameters specified)
+    -   `gh api --method POST -H "Accept: application/vnd.github+json"
+        /repos/MarkLodato/example-build/deployments -f ref='refs/heads/main'`
 -   [push.json](push.json)
+-   [release-noparams.json](release-noparams.json) (no parameters passed in)
+    -   `gh api --method POST -H "Accept: application/vnd.github+json"
+        /repos/MarkLodato/example-build/releases -f tag_name="v0.0.2"`
+-   [release-params.json](release-noparams.json) (parameters passed in)
+    -   `gh api --method POST -H "Accept: application/vnd.github+json"
+        /repos/MarkLodato/example-build/releases -f tag_name='v0.0.1' -f
+        target_commitish='main' -f name='release- v1.0.0' -f body='Description
+        of the release' -F draft=false -F prerelease=false -F
+        generate_release_notes=true -F
+        discussion_category_namestring=discussion-category`
 -   [workflow_call.json](workflow_call.json) (same run as
     workflow_dispatch.json, but the reusable workflow that was called)
 -   [workflow_dispatch.json](workflow_dispatch.json)
@@ -69,3 +81,5 @@ parse if the workflow name and/or ref also contain an `@`. See
 
 Note that the repository name cannot contain `@`, so the SPDX Download Location
 is unambiguous: the repository URL is up to the first `@`.
+
+
