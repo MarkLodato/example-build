@@ -1,6 +1,9 @@
 name: Dump GitHub Actions context
 
 on:
+  create:
+  deployment:
+  push:
   workflow_dispatch:
     inputs:
       toplevelInput:
