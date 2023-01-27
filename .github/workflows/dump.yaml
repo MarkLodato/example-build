@@ -3,6 +3,8 @@ name: Dump GitHub Actions context
 on:
   create:
   deployment:
+  release:
+    types: [created, edited]
   push:
   workflow_dispatch:
     inputs:
